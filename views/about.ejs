@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - Petbondo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #1a1a1a;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #ffffff;
+    }
+
+    nav {
+      background-color: #17effb;
+      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    nav ul {
+      width: 100%;
+      list-style: none;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    nav li {
+      height: 100px;
+    }
+
+    nav a {
+      height: 100%;
+      padding: 0 30px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      color: #fff;
+    }
+
+    nav a:hover {
+      background-color: #eab3cb;
+    }
+
+    nav li:first-child a:hover {
+      background-color: #17effb;
+    }
+
+    nav li:first-child {
+      margin-right: auto;
+      font-family: cursive;
+      font-size: 28px;
+    }
+
+    nav li:first-child a {
+      color: black;
+    }
+
+    .container {
+      width: fit-content;
+      margin: 20px 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .content {
+      width: 100%;
+    }
+
+    .content h2 {
+      color: #ffffff;
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .content p {
+      color: #b7d7e9;
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .content ul {
+      list-style-type: disc;
+      margin-left: 20px;
+      margin-bottom: 15px;
+    }
+
+    .content li {
+      color: #b7d7e9;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    @media(max-width: 800px) {
+      .container {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <ul>
+      <li><a href="/">Petbondo</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About Us</a></li>
+      <li><a href="/pets/dogs">Dogs</a></li>
+      <li><a href="/pets/cats">Cats</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="container">
+    <div class="content">
+      <h2>About Us</h2>
+      <p>We are passionate about connecting loving homes with wonderful animals in need. We believe every pet deserves a safe and happy place to call home, and we strive to make that dream a reality.</p>
+
+      <p>Here at Petbondo, we are:</p>
+      <ul>
+        <li>Dedicated to animal welfare: We work closely with shelters and rescues to find loving homes for cats, dogs, and other animals who have been abandoned, surrendered, or neglected.</li>
+        <li>Committed to responsible pet ownership: We believe in educating potential adopters about the lifelong commitment of caring for a pet. We provide resources and support to help ensure successful adoptions and happy lives for both pets and their families.</li>
+        <li>Driven by compassion: We understand the bond between humans and animals and the positive impact pets can have on our lives. We are dedicated to finding the perfect match for both the pet and the adopter.</li>
+      </ul>
+
+      <h2>Our Mission</h2>
+      <p>Our mission is to facilitate the adoption of homeless animals by:</p>
+      <ul>
+        <li>Providing a user-friendly platform for individuals to search for adoptable pets in their area.</li>
+        <li>Offering detailed profiles of each animal, including their personality, needs, and history.</li>
+        <li>Making the adoption process easy and transparent for both potential adopters and shelters/rescues.</li>
+        <li>Promoting responsible pet ownership through educational resources and support services.</li>
+      </ul>
+
+      <p>We believe that every life deserves a chance. By working together, we can ensure that more animals find the loving homes they deserve.</p>
+
+      <p>If you are looking to adopt a pet or are interested in supporting our mission, we encourage you to explore our website and learn more.</p>
+    </div>
+  </div>
+</body>
+
+</html>
