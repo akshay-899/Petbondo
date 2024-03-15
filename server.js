@@ -46,7 +46,6 @@ const transporter = nodemailer.createTransport({
     auth:{
         user:process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
-        // pass:'dumbobad@6969'
         
     }
 });
@@ -172,25 +171,9 @@ app.post('/user-adoption/:petId', (req, res) => {
     });
 });
 
-
-// app.post('/admin/approve-adoption/:id', (req, res) => {
-//     const adoptionId = req.params.id;
-
-//     const sql = 'UPDATE adopters SET status = "approved" WHERE adopter_id = ?';
-//     db.query(sql, [adoptionId], (err, result) => {
-//         if (err) {
-//             console.error('Error approving adoption request:', err);
-//             res.status(500).send('Error approving adoption request');
-//         } else {
-//             send_approval_email(adoptionId); 
-//             res.redirect('/admin/applications'); 
-//         }
-//     });
-// });
+//approval
 app.post('/admin/approve-adoption/:id', (req, res) => {
     const adoptionId = req.params.id;
-
-    // Retrieve the adopter's email and the associated pet_id
     const sql = 'SELECT email, pet_id FROM adopters WHERE adopter_id = ?';
     db.query(sql, [adoptionId], (err, rows) => {
         if (err) {
@@ -205,7 +188,6 @@ app.post('/admin/approve-adoption/:id', (req, res) => {
                 send_approval_email(userEmail, adoptionId, petId, res);
             } else {
                 console.error('No rows found for adoption ID:', adoptionId);
-                // Handle this case appropriately, maybe send a response to the client or log a message.
                 res.status(404).send('No rows found for adoption ID');
             }
         }
@@ -266,53 +248,7 @@ function updateAdoptionStatus(adoptionId, petId, res) {
 }
 
 
-
-// app.post('/admin/approve-adoption/:id', (req, res) => {
-//     const adoptionId = req.params.id;
-
-//     // Retrieve the adopter's email and the associated pet_id
-//     const sql = 'SELECT pet_id, email FROM adopters WHERE adopter_id = ?';
-//     db.query(sql, [adoptionId], (err, rows) => {
-//         if (err) {
-//             console.error('Error fetching adoption information:', err);
-//             res.status(500).send('Error approving adoption request');
-//         } else {
-//             const petId = rows[0].pet_id;
-//             const userEmail = rows[0].email;
-
-//             // Update adopter's status to "approved"
-//             const updateSql = 'UPDATE adopters SET status = "approved" WHERE adopter_id = ?';
-//             db.query(updateSql, [adoptionId], (err, result) => {
-//                 if (err) {
-//                     console.error('Error approving adoption request:', err);
-//                     res.status(500).send('Error approving adoption request');
-//                 } else {
-//                     // Insert adoption record into the adoptions table
-//                     const insertSql = 'INSERT INTO adoptions (adopter_id, pet_id, adoption_date) VALUES (?, ?, NOW())';
-//                     db.query(insertSql, [adoptionId, petId], (err, result) => {
-//                         if (err) {
-//                             console.error('Error adding adoption record:', err);
-//                             res.status(500).send('Error approving adoption request');
-//                         } else {
-//                             // Send approval email to the adopter
-//                             send_approval_email(userEmail);
-//                             res.redirect('/admin/applications');
-//                         }
-//                     });
-//                 }
-//             });
-//         }
-//     });
-// });
-
-
-
-
-
-
-
-
-
+//disapproval
 app.post('/admin/disapprove-adoption/:id', (req, res) => {
     const adoptionId = req.params.id;
 
@@ -364,10 +300,8 @@ function send_disapproval_email(adoptionId) {
     });
 };
 
-
-
-
-app.listen(3000,(err)=>{
+//listen to the port
+app.listen(process.env.PORT||3000,(err)=>{
     if(err) console.log(err);
-    console.log("Server is running on port 3000");
+    console.log(`Server is running at http://localhost:${process.env.PORT}`);
 });
