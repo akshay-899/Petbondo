@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="/stylesheets/admin.css">
+</head>
+<body>
+    <h1>Adoption Requests</h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Contact Number</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        <% adopters.forEach(adopter => { %>
+            <tr>
+                <td><%= adopter.name %></td>
+                <td><%= adopter.contact_number %></td>
+                <td><%= adopter.email %></td>
+                <td><%= adopter.status %></td>
+                <td>
+                    <% if (adopter.status === 'pending') { %>
+                        <form action="/admin/approve-adoption/<%= adopter.adopter_id %>" method="POST">
+                            <button type="submit">Approve</button>
+                        </form>
+                        <form action="/admin/disapprove-adoption/<%= adopter.adopter_id %>" method="POST">
+                            <button type="submit">Disapprove</button>     
+                        </form>
+                        <% } else if (adopter.status === 'disapproved') { %>
+                            <!-- Show message or disable button if already disapproved -->
+                            <span class="disapproved-message">Already Disapproved</span>
+                    <% } else { %>
+                        <!-- Show message or disable button if already approved -->
+                        <span>Already Approved</span>
+                    <% } %>
+                </td>
+            </tr>
+        <% }); %>
+    </table>
+</body>
+</html>

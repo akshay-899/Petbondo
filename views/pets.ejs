@@ -3,73 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style>
-      body {
-        font-family: "Arial", sans-serif;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        background-color: #0fdcef;
-      }
-
-      h1 {
-        color: #333;
-        margin-bottom: 20px;
-      }
-
-      #petInfo {
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      
-      .pet-card {
-        background-color: white;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        margin: 10px;
-        overflow: hidden;
-        width: 300px;
-      }
-
-      .pet-image img {
-        width: auto;
-        height: 250px;
-        border-bottom: 1px solid #ddd;
-      }
-
-      .pet-details {
-        padding: 15px;
-        text-align: left;
-      }
-      .adopt-button {
-        background-color: #ef0f70;
-        width: 100%;
-        color: #fff;
-        padding: 8px 12px;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        font-size: 14px;
-        /* margin-top: 10px; */
-      }
-
-      @media only screen and (max-width: 600px) {
-        .pet-card {
-          width: 90%;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="/stylesheets/pets.css">
   </head>
   <body>
+    <%- include('header.ejs') %>
     <h1>Pet Information</h1>
 
     <div id="petInfo">
         <% pets.forEach(pet => { %>
+            <% if (!pet.adopter_id || pet.status !== 'disapproved') { %>
             <div class="pet-card">
                 <div class="pet-image">
                     <img src="/uploads/<%= pet.photo %>" alt="<%= pet.name %>">
@@ -80,15 +22,21 @@
                     <p>Age: <%= pet.age %></p>
                     <p>Gender: <%= pet.gender %></p>
                 </div>
-                <button class="adopt-button" onclick="adoptPet('<%= pet.id %>')">Adopt</button>
+                <button class="adopt-button" onclick="adoptPet('<%= pet.pet_id %>')">Adopt</button>
+
             </div>
-        <% }); %>
+            <% } %>
+            <% }); %>
     </div>
 
     <script>
-        function adoptPet(petid) {
-          window.location = `/adoption?petId=${petid}`;
-        }
-    </script>
+      function adoptPet(petId) {
+          // Construct the URL with the pet ID
+          console.log(petId);
+          const adoptionUrl = `/adoption?petId=${petId}`;
+          // Redirect to the adoption page with the pet ID
+          window.location.href = adoptionUrl;
+      }
+  </script>
   </body>
 </html>

@@ -1,0 +1,68 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: "Arial", sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color:rgba(0, 0, 0);
+  }
+
+  h1 {
+    color: white;
+    margin-bottom: 20px;
+  }
+
+  #petInfo {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .pet-card {
+    /* background-color: white; */
+    border: 1px solid wheat;
+    border-radius: 8px;
+    margin: 10px;
+    overflow: hidden;
+    width: 300px;
+  }
+
+  .pet-image img {
+    width: fit-content;
+    height: 250px;
+    border-bottom: 0.2px solid wheat;
+  }
+
+  .pet-details {
+    color: #ef0f70;
+    padding: 15px;
+    text-align: left;
+  }
+  .adopt-button {
+    background-color: #ef0f70;
+    width: 100%;
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  @media only screen and (max-width: 600px) {
+    .pet-card {
+      width: 90%;
+    }
+    .pet-image img{
+      width:max-content;
+      height: 250px;
+    }
+  }

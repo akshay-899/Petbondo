@@ -19,51 +19,6 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: #ffffff;
     }
-
-    nav {
-      background-color: #17effb;
-      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    nav ul {
-      width: 100%;
-      list-style: none;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-    }
-
-    nav li {
-      height: 100px;
-    }
-
-    nav a {
-      height: 100%;
-      padding: 0 30px;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      color: #fff;
-    }
-
-    nav a:hover {
-      background-color: #eab3cb;
-    }
-
-    nav li:first-child a:hover {
-      background-color: #17effb;
-    }
-
-    nav li:first-child {
-      margin-right: auto;
-      font-family: cursive;
-      font-size: 28px;
-    }
-
-    nav li:first-child a {
-      color: black;
-    }
-
     .container {
       width: fit-content;
       margin: 20px 0;
@@ -111,16 +66,7 @@
 </head>
 
 <body>
-  <nav>
-    <ul>
-      <li><a href="/">Petbondo</a></li>
-      <li><a href="/">Home</a></li>
-      <li><a href="/about">About Us</a></li>
-      <li><a href="/pets/dogs">Dogs</a></li>
-      <li><a href="/pets/cats">Cats</a></li>
-      <li><a href="/contact">Contact</a></li>
-    </ul>
-  </nav>
+  <%- include('header.ejs')  %>
   <div class="container">
     <div class="content">
       <h2>About Us</h2>
