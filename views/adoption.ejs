@@ -8,15 +8,17 @@
 </head>
 <body>
     <h1>User Information</h1>
-    <span id="ask">Please fill the  form below to adopt a pet.</span>
-    <form action="/user-adoption/<%= petId %>" method="POST">
-        <label>Name:</label>
-        <input type="text" name="name">
-        <label>Contact Number:</label>
-        <input type="number" name="contact_number">
-        <label>Email</label>
-        <input type="email" name="email">
-        <button type="submit">Submit</button>
-    </form>
+    <span id="ask">Please fill the form below to adopt a pet.</span>
+    <div class="form-container">
+        <form action="/user-adoption/<%= petId %>" method="POST">
+            <label>Name:</label>
+            <input type="text" name="name"  required>
+            <label>Contact Number:</label>
+            <input type="tel" name="contact_number" required pattern="[0-9]{10}">
+            <label>Email</label>
+            <input type="email" name="email" required>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
 </body>
 </html>

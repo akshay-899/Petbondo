@@ -1,0 +1,135 @@
+/* Default styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+header {
+    background-color: #000000;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    position: relative;
+}
+
+nav {
+    padding: 10px;
+    text-align: center;
+}
+
+nav a {
+    color: #f90794;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+main {
+    padding: 20px;
+}
+
+h1 {
+    margin-top: 0;
+}
+
+#logout-link {
+    font-size: large;
+    color: #e12a2a;
+    text-decoration: none;
+    position: absolute; 
+    top: 20px;
+    right: 40px; 
+}
+
+#pet-management {
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+#pet-management h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+#pet-management p {
+    color: #666;
+    font-size: 21px;
+    margin-bottom: 20px;
+}
+
+#pet-management ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#pet-management li {
+    margin-bottom: 10px;
+}
+
+#pet-management li strong {
+    font-weight: bold;
+}
+
+#pet-management li a {
+    color: #ff0080;
+    text-decoration: none;
+}
+
+#pet-management li a:hover {
+    text-decoration: underline;
+}
+
+/* for responsiveness*/
+@media screen and (max-width: 768px) {
+    header {
+        padding: 5px;
+    }
+
+    #logout-link {
+        font-size: medium;
+        top: 10px;
+        right: 20px;
+    }
+
+    main {
+        padding: 10px;
+    }
+
+    #pet-management {
+        padding: 10px;
+    }
+
+    #pet-management h2 {
+        font-size: 20px;
+    }
+
+    #pet-management p {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #logout-link {
+        top: 5px;
+        right: 10px;
+        font-size: small;
+    }
+
+    nav a {
+        margin: 5px;
+    }
+
+    #pet-management h2 {
+        font-size: 18px;
+    }
+
+    #pet-management p {
+        font-size: 14px;
+    }
+}

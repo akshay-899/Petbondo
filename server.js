@@ -8,13 +8,19 @@ const ejs=require('ejs');
 const nodemailer = require('nodemailer');
 const { exit } = require('process');
 const dotenv = require('dotenv');
+const { v4: uuidv4 } = require('uuid');
+const session=require('express-session');
 
 dotenv.config(); 
 var app=express();
 
 app.set('view engine', 'ejs');
-
-
+//session
+app.use(session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized:true
+}));
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
@@ -36,11 +42,9 @@ const storage = multer.diskStorage({
         cb(null, fileName);
     },
 });
-
 const upload = multer({ storage: storage });
 
 //email service
-
 const transporter = nodemailer.createTransport({
     service: process.env.EMAIL_SERVICE,
     auth:{
@@ -49,8 +53,9 @@ const transporter = nodemailer.createTransport({
         
     }
 });
-//database
 
+
+//database
 var db=mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -63,38 +68,72 @@ db.connect((err)=>{
     else console.log(err);
     }
 );
-
 //routes
+
+//get requests
 app.get('/',(req,res)=>{
     res.render('index');
 
 });
+
 function fetchPets(category, res) {
     let sql;
+    let speciesCondition = '';
+
     if (category === 'all') {
-        sql = "SELECT * FROM pets";
+        sql = `
+            SELECT name, species_id, age, gender, photo
+            FROM pets
+            WHERE pet_id NOT IN (
+                SELECT pet_id
+                FROM adoptions
+            )
+        `;
     } else if (category === 'cats') {
-        sql = "SELECT * FROM pets WHERE species_id = 2";
-    } 
-    else if (category === 'dogs') {
-        sql = "SELECT * FROM pets WHERE species_id = 1";
-    }
-    else if(category==='others'){
-        sql="SELECT * FROM pets WHERE species_id = 3";
-    }
-    else {
+        speciesCondition = 'AND species_id = 2';
+    } else if (category === 'dogs') {
+        speciesCondition = 'AND species_id = 1';
+    } else if (category === 'others') {
+        speciesCondition = 'AND species_id = 3';
+    } else {
         return res.status(404).send('Category not found');
     }
 
+    sql = `
+        SELECT name, species_id, age, gender, photo
+        FROM pets
+        WHERE pet_id NOT IN (
+            SELECT pet_id
+            FROM adoptions
+        )
+        ${speciesCondition}
+    `;
+
     db.query(sql, (err, data) => {
-        if (err) throw err;
-        else {
+        if (err) {
+            console.error('Error fetching pets:', err);
+            res.status(500).send('Error fetching pets');
+        } else {
             res.render('pets', { category, pets: data });
         }
     });
 }
 app.get('/pets', (req, res) => {
-    fetchPets('all', res);
+    const sql = `
+    SELECT pet_id,name, species_id, age, gender, photo
+    FROM pets
+    WHERE pet_id NOT IN (
+        SELECT pet_id
+        FROM adoptions
+    )`;
+    db.query(sql, (err, data) => {
+        if (err) {
+            console.error('Error fetching pets:', err);
+            res.status(500).send('Error fetching pets');
+        } else {
+            res.render('pets', { category: 'all', pets: data });
+        }
+    });
 });
  
 app.get('/pets/:category', (req, res) => {
@@ -102,13 +141,89 @@ app.get('/pets/:category', (req, res) => {
     fetchPets(category, res);
 });
 
-app.get('/admin',(req,res)=>{
-    res.render('admin');
+app.get('/admin_login',(req,res)=>{
+    res.render('admin_login');
+})
+app.get('/admin_signup',(req,res)=>{
+    res.render('admin_signup');
 });
-app.get('/admin/add_pet', (req, res) => {
+
+app.post('/signup', (req, res) => {
+    const { name, email, password } = req.body;
+    const adminId = uuidv4();
+    const sql = 'INSERT INTO admin (admin_id, name, email, password) VALUES (?, ?, ?, ?)';
+    
+    db.query(sql, [adminId, name, email, password], (err, results) => {
+        if (err) {
+            console.error('Error signing up admin:', err);
+            res.status(500).send('Error signing up admin');
+        } else {
+            // Send email to the admin
+            const mailOptions = {
+                from: process.env.EMAIL_USER,
+                to: email,
+                subject: 'Welcome to Our Website',
+                html: `
+                    <p>Dear ${name},</p>
+                    <p>Thank you for signing up as an admin on our website.</p>
+                    <p>Your admin ID: ${adminId}</p>
+                    <p>Please keep this information safe and do not share it with anyone!</p>
+                `
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.error('Error sending email:', error);
+                    res.status(500).send('Error sending email');
+                } else {
+                    console.log('Mail was sent to the admin successfully',info.response);
+                    res.redirect('/admin_login');
+                }
+            });
+        }
+    });
+});
+
+app.post('/login', (req, res) => {
+    const { adminId, password } = req.body;
+    const sql = 'SELECT * FROM admin WHERE admin_id = ? AND password = ?';
+    db.query(sql, [adminId, password], (err, results) => {
+        if (err) {
+            console.error('Error executing query:', err);
+            res.status(500).send('Error logging in');
+        } else {
+            if (results.length > 0) {
+                req.session.adminId = results[0].admin_id; // Store admin ID in session
+                res.redirect('/admin'); // Redirect to admin dashboard
+            } else {
+                res.send('Invalid admin ID or password');
+            }
+        }
+    });
+});
+
+app.get('/admin',requireAdminAuth, (req, res) => {
+    // Check if admin is logged in
+    if (req.session.adminId) {
+        // Render the admin page
+        res.render('admin');
+    } else {
+        res.redirect('/admin_login');
+    }
+});
+
+// Logout route
+app.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) throw err;
+        res.redirect('/admin_login');
+    });
+});
+
+app.get('/admin/add_pet', requireAdminAuth,(req, res) => {
     res.render('add_pet');
 });
-app.get('/admin/applications', (req, res) => {
+app.get('/admin/applications',requireAdminAuth, (req, res) => {
     const sql = 'SELECT * FROM adopters';
     db.query(sql, (err, adopters) => {
         if (err) {
@@ -132,14 +247,20 @@ app.get('/adoption', (req, res) => {
     const petId = req.query.petId;
     res.render('adoption', {petId: petId });
 });
+//to display after /add-pet
 app.get('/success',(req,res)=>{
     res.send(`<html>
-    <body style="background-color:black;display:flex;align-items:center;justify-content:center;font-size:21px;color:red">Thank you for adding the pet the pet is added in the database
+    <body style="background-color:black;display:flex;align-items:center;justify-content:center;font-size:21px;color:red">Thank you for adding the pet.The pet is added in the database
     </body>
     </html>`);
 });
 
+app.get('/contact',(req,res)=>{
+    res.render('contact');
+});
 
+
+//post requests
 app.post('/add-pet', upload.single('photo'), (req, res) => {
     const {name,species_id,age,gender}=req.body;
     const photo = req.file ? req.file.filename : 'default.png';
@@ -299,6 +420,16 @@ function send_disapproval_email(adoptionId) {
 }
     });
 };
+
+//middleware
+function requireAdminAuth(req, res, next) {
+    if (req.session && req.session.adminId) {
+        next();
+    } else {
+
+        res.redirect('/admin_login'); 
+    }
+}
 
 //listen to the port
 app.listen(process.env.PORT||3000,(err)=>{

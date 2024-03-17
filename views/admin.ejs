@@ -4,12 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Page</title>
+   <link rel="stylesheet" href="../stylesheets/admin.css">
 </head>
 <body>
-    <h1>Welcome, Admin!</h1>
+    <header>
+        <h1>Welcome, Admin!</h1>
+        <a href="/logout" id="logout-link">Logout</a>
+    </header>
+    <nav>
         <a href="/admin/add_pet">Add Pet</a>
-
         <a href="/admin/applications">View Submitted Applications</a>
-    </form>
+    </nav>
+    <main>
+        <section id="pet-management">
+            <h2>Pet Management</h2>
+            <p>Welcome to the pet management section, where you can add and manage pets available for adoption.</p>
+            <ul>
+                <li><strong>Add Pet:</strong> Click on the <a href="/admin/add_pet">Add Pet</a> link to add a new pet to the database.</li>
+                <li><strong>View Submitted Applications:</strong> Navigate to the <a href="/admin/applications">View Submitted Applications</a> section to review and process adoption applications.</li>
+            </ul>
+        </section>
+        
+    </main>
 </body>
 </html>

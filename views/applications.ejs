@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
-    <link rel="stylesheet" href="/stylesheets/admin.css">
+    <link rel="stylesheet" href="../stylesheets/applications.css">
 </head>
 <body>
     <h1>Adoption Requests</h1>
@@ -31,10 +31,10 @@
                             <button type="submit">Disapprove</button>     
                         </form>
                         <% } else if (adopter.status === 'disapproved') { %>
-                            <!-- Show message or disable button if already disapproved -->
+                            <!-- disable button if already disapproved  -->
                             <span class="disapproved-message">Already Disapproved</span>
                     <% } else { %>
-                        <!-- Show message or disable button if already approved -->
+                        <!-- disable button if already approved -->
                         <span>Already Approved</span>
                     <% } %>
                 </td>

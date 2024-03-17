@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petbondo-Admin</title>
+    <link rel="stylesheet" href="../stylesheets/admin_login.css">
+</head>
+
+<body>
+    <a href="/admin_signup" id="Back" class="back-button">Back</a>
+    <div class="container">
+        <h2>Login</h2>
+        <form action="/login" method="post">
+            <label for="adminId">Username</label>
+            <input type="text" id="adminId" name="adminId" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            <input type="submit" value="Login">
+        </form>
+        <div class="form-footer">
+            <p>Don't have an account? <a href="/admin_signup">Sign up</a></p>
+        </div>
+    </div>
+</body>
+</html>
