@@ -149,11 +149,11 @@ app.get('/admin_signup',(req,res)=>{
 });
 
 app.post('/signup', (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, phone_number } = req.body;
     const adminId = uuidv4();
-    const sql = 'INSERT INTO admin (admin_id, name, email, password) VALUES (?, ?, ?, ?)';
+    const sql = 'INSERT INTO admin (admin_id, name, email, password,phone_number) VALUES (?,?,?,?,?)';
     
-    db.query(sql, [adminId, name, email, password], (err, results) => {
+    db.query(sql, [adminId, name, email, password,phone_number], (err, results) => {
         if (err) {
             console.error('Error signing up admin:', err);
             res.status(500).send('Error signing up admin');
@@ -194,7 +194,7 @@ app.post('/login', (req, res) => {
         } else {
             if (results.length > 0) {
                 req.session.adminId = results[0].admin_id; // Store admin ID in session
-                res.redirect('/admin'); // Redirect to admin dashboard
+                res.redirect('/admin'); // Redirect to admin
             } else {
                 res.send('Invalid admin ID or password');
             }

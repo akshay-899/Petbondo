@@ -32,11 +32,12 @@
     text-decoration: none;
     display: flex;
     align-items: center;
-    color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    transition: color 0.3s ease-in-out;
   }
 
   nav a:hover {
-    background-color: #eab3cb;
+    color: white;
   }
   nav li:first-child a:hover {
     background-color: rgb(23, 239, 251);
@@ -88,6 +89,9 @@ display: block;
 .sidebar {
 width: 100%;
 }
+nav a{
+  color: rgb(255, 255, 255);
+}
 }
 
 @media(max-width: 400px) {
@@ -96,11 +100,13 @@ display: none;
 }
 .menu-button {
 display: block;
-/* background-color: black; */
 color: white;
 
 }
 .sidebar {
 width: 100%;
+}
+nav a{
+  color: rgb(255, 255, 255);
 }
 }
