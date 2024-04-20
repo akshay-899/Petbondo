@@ -1,7 +1,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-image: url('https://media-be.chewy.com/wp-content/uploads/2023/12/13091938/Cat-Tail-Languge-GIF-1_Swishing.gif');
+    /* background-image: url('https://media-be.chewy.com/wp-content/uploads/2023/12/13091938/Cat-Tail-Languge-GIF-1_Swishing.gif'); */
     background-repeat: no-repeat;
     background-size: cover; 
     margin: 0;
@@ -11,6 +11,9 @@ body {
 }
 
 form {
+    margin-top: 50px;
+    width: 600px;
+    height: fit-content;
     max-width: 400px;
     padding: 20px;
     background-color:rgba(245, 222, 179, 0.563);

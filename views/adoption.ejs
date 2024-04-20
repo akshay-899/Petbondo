@@ -11,12 +11,13 @@
     <span id="ask">Please fill the form below to adopt a pet.</span>
     <div class="form-container">
         <form action="/user-adoption/<%= petId %>" method="POST">
+            <div class="error" ></div>
             <label>Name:</label>
             <input type="text" name="name"  required>
             <label>Contact Number:</label>
-            <input type="tel" name="contact_number" required pattern="[0-9]{10}">
+            <input type="tel" name="contact_number" required>
             <label>Email</label>
-            <input type="email" name="email" required>
+            <input type="email" name="email" required >
             <button type="submit">Submit</button>
         </form>
     </div>

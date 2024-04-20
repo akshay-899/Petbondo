@@ -82,7 +82,7 @@ function fetchPets(category, res) {
 
     if (category === 'all') {
         sql = `
-            SELECT name, species_id, age, gender, photo
+            SELECT pet_id,name, species_id, age, gender, photo
             FROM pets
             WHERE pet_id NOT IN (
                 SELECT pet_id
@@ -100,7 +100,7 @@ function fetchPets(category, res) {
     }
 
     sql = `
-        SELECT name, species_id, age, gender, photo
+        SELECT pet_id,name, species_id, age, gender, photo
         FROM pets
         WHERE pet_id NOT IN (
             SELECT pet_id
@@ -282,6 +282,13 @@ app.post('/add-pet', upload.single('photo'), (req, res) => {
 app.post('/user-adoption/:petId', (req, res) => {
     const { name, contact_number, email } = req.body;
     const petId=req.params.petId;
+    // const diverror=document.querySelector(`.error`);
+    const pattern=/\S+@\S+\.\S+/;
+    const  phonePattern=/^\d{10}$/;
+    if(req.body.email==null && req.body.contact_number==null && req.body.contact_number!=phonePattern && req.body.email!=pattern){
+        res.status(400).send('<div class="error">Enter the details in specified format</div>');
+    }
+    else{
     const sql = 'INSERT INTO adopters (name, contact_number, email, pet_id) VALUES (?, ?, ?, ?)';
     const values = [name, contact_number, email, petId];
     db.query(sql, values, (err, result) => {
@@ -290,6 +297,7 @@ app.post('/user-adoption/:petId', (req, res) => {
         }
         res.redirect("/thank-you");
     });
+}
 });
 
 //approval
@@ -331,7 +339,7 @@ function send_approval_email(userEmail, adoptionId, petId, res) {
                     <p>You can explore more of our adorable pets available for adoption on our website.</p>
                     <p>Thank you for considering adoption!</p>
                     <hr>
-                    <p style="font-size: 0.8em; color: #666;">This email was sent automatically. Please do not reply.</p>
+                    <p style="font-size: 0.8em; color: #666;">This email was sent automatically. if you have any queries please mail to dumbobad1234@gmail.com.</p>
                 </body>
             </html>
         ` 
@@ -430,6 +438,9 @@ function requireAdminAuth(req, res, next) {
         res.redirect('/admin_login'); 
     }
 }
+
+//regex
+
 
 //listen to the port
 app.listen(process.env.PORT||3000,(err)=>{
